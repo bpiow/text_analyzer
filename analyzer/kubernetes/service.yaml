@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ai-text-classifier-service
+spec:
+  type: NodePort  # Exposes the service externally via a random port
+  selector:
+    app: ai-text-classifier
+  ports:
+    - protocol: TCP
+      port: 80  # The port exposed by the service
+      targetPort: 8000  # The port the container listens on
+      nodePort: 30000  # The external port to access the service

@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-text-classifier
+  labels:
+    app: ai-text-classifier
+spec:
+  replicas: 2  
+  selector:
+    matchLabels:
+      app: ai-text-classifier
+  template:
+    metadata:
+      labels:
+        app: ai-text-classifier
+    spec:
+      containers:
+        - name: ai-text-classifier
+          image: your-username/ai-text-classifier:latest  
+          ports:
+            - containerPort: 8000  
+          env:
+            - name: ENV_VAR_EXAMPLE
+              value: "example_value"  # Example of setting environment variables
