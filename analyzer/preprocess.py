@@ -1,6 +1,5 @@
 import spacy
 
-# Load a pre-trainer spacy model for text preprocessing
 nlp = spacy.load("en_core_web_sm")
 
 def preprocess_text(text):
@@ -16,7 +15,3 @@ def preprocess_text(text):
 
     return ' '.join(clean_tokens)
 
-# Function test
-example_text = "This is an example sentence to test our preprocessing function."
-clean_text = preprocess_text(example_text)
-print(f"Cleaned text: {clean_text}")

@@ -7,10 +7,11 @@ from joblib import dump
 from preprocess import preprocess_text
 import os
 
-# Load dataset (using only 2 categories for simplicity)
-newsgroups = fetch_20newsgroups(subset='train', categories=['rec.sport.hockey', 'sci.space'])
+# Loading dataset (using only 2 categories for simplicity)
+newsgroups = fetch_20newsgroups(subset='train', 
+                                categories=['rec.sport.hockey', 'sci.space'])
 
-# Preprocess text data
+# Preprocessing text data
 texts = [preprocess_text(text) for text in newsgroups.data]
 labels = newsgroups.target
 
@@ -32,10 +33,10 @@ accuracy = accuracy_score(y_test, y_pred)
 print(f"Model Accuracy: {accuracy:.2f}")
 
 # Ensure the 'Results' directory exists
-os.makedirs('Results', exist_ok=True)
+os.makedirs('results', exist_ok=True)
 
 # Save the trained model and vectorizer
-dump(model, 'Results/text_classifier.joblib')
-dump(vectorizer, 'Results/tfidf_vectorizer.joblib')
+dump(model, 'results/text_classifier.joblib')
+dump(vectorizer, 'results/tfidf_vectorizer.joblib')
 
-print("Model and vectorizer saved successfully as 'text_classifier.joblib' and 'tfidf_vectorizer.joblib'.")
+print("SUCCESS: Model and vectorizer saved in 'results'.")

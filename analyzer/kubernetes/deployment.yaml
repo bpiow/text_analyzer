@@ -16,9 +16,6 @@ spec:
     spec:
       containers:
         - name: ai-text-classifier
-          image: your-username/ai-text-classifier:latest  
+          image: bpiow/ai-text-classifier:latest  
           ports:
             - containerPort: 8000  
-          env:
-            - name: ENV_VAR_EXAMPLE
-              value: "example_value"  # Example of setting environment variables

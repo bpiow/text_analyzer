@@ -6,3 +6,5 @@ ansible
 
 # Ignore the env folder  
 text-analyzer
+
+__pycache__
