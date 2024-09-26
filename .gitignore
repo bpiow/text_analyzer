@@ -1,0 +1,8 @@
+# Ignore Mac system files
+.DS_store
+
+# Ignore ansible folder for now
+ansible
+
+# Ignore the env folder  
+text-analyzer
