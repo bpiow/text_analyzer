@@ -5,3 +5,5 @@ joblib
 spacy
 pydantic
 pymongo
+pytest
+httpx

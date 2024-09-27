@@ -1,4 +1,3 @@
-# database/save_results.py
 from mongodb.db import predictions_collection
 from datetime import datetime
 

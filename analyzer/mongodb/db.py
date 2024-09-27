@@ -1,7 +1,5 @@
-# database/db.py
 from pymongo import MongoClient
 
-# Establish connection to MongoDB
 client = MongoClient('mongodb://localhost:27017/')
 
 # Create a database named 'text_classification'
