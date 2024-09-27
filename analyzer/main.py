@@ -9,10 +9,6 @@ model = load("Results/text_classifier.joblib")
 vectorizer = load("Results/tfidf_vectorizer.joblib")
 app = FastAPI()
 
-@app.get("/")
-def read_root():
-    return {"message": "Welcome to the Text Classifier API!"}
-
 class TextInput(BaseModel):
     text: str
 
