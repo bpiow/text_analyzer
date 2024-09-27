@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'bpiow/ai-text-classifier:latest' 
+        DOCKER_IMAGE = 'bpiow/ai-text-classifier:latest'
+        SHELL = '/bin/zsh'
     }
-
     stages {
         stage('Clone Repository') {
             steps {
