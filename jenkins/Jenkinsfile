@@ -1,0 +1,69 @@
+    agent any pipeline {
+
+    environment {
+        DOCKER_IMAGE = 'bpiow/ai-text-classifier:latest' 
+    }
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git url: 'https://github.com/bpiow/text_analyzer.git', branch: 'main'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    sh 'docker build -t $DOCKER_IMAGE .'
+                }
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                script {
+                    // Run any tests defined for the project
+                    sh 'pytest'  // Adjust this step with actual testing scripts
+                }
+            }
+        }
+
+        stage('Push to Docker Hub') {
+            steps {
+                script {
+                    // Use withCredentials to securely access Docker credentials stored in Jenkins
+                    withCredentials([usernamePassword(credentialsId: 'docker_hub_credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+
+                        sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+
+                        sh 'docker push $DOCKER_IMAGE'
+                    }
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script {
+                    // Use Docker to deploy the container (this example deploys locally; adjust as needed)
+                    sh 'docker stop ai-text-classifier || true && docker rm ai-text-classifier || true'
+                    sh 'docker run -d -p 8000:8000 --name ai-text-classifier $DOCKER_IMAGE'
+
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            // Clean up workspace after the build
+            cleanWs()
+        }
+        success {
+            echo 'Deployment successful!'
+        }
+        failure {
+            echo 'Deployment failed.'
+        }
+    }
+}
