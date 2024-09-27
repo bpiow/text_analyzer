@@ -1,15 +1,21 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKER_IMAGE = 'bpiow/ai-text-classifier:latest'
-        SHELL = '/bin/zsh'
-    }
-    stages {
-        stage('Clone Repository') {
-            steps {
-                git credentialsId: 'github_credentials', url: 'https://github.com/bpiow/text_analyzer', branch: 'main'
+        environment {
+            DOCKER_IMAGE = 'bpiow/ai-text-classifier:latest'
+            SHELL = '/bin/zsh'
+        }
+
+        stages {
+            stage('Clone Repository') {
+                steps {
+                    git credentialsId: 'github_credentials', url: 'https://github.com/bpiow/text_analyzer', branch: 'main'
+                }
             }
+
+        stage('Initialize'){
+            def dockerHome = tool 'myDocker'
+            env.PATH = "${dockerHome}/bin:${env.PATH}"
         }
 
         stage('Build Docker Image') {
