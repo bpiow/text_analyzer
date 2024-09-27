@@ -1,0 +1,46 @@
+---
+- name: Set up a basic configuration on Ubuntu server
+  hosts: hetzner
+  become: true
+
+  tasks:
+    - name: Update apt
+      apt:
+        update_cache: yes
+        upgrade: dist
+        autoremove: yes
+        autoclean: yes
+
+    - name: Install essential packages
+      apt:
+        name:
+          - build-essential
+          - curl
+          - wget
+          - vim
+          - git
+          - ufw
+          - docker.io
+        state: present
+
+    - name: Set up ufw
+      ufw:
+        state: enabled
+        rule: allow
+        port: '22'
+        proto: tcp
+
+    - name: Allow HTTP and HTTPS traffic through ufw
+      ufw:
+        rule: allow
+        port: "{{ item }}"
+        proto: tcp
+      loop:
+        - '80'
+        - '443'
+
+    - name: Enable firewall to start on boot
+      systemd:
+        name: ufw
+        enabled: true
+        state: started

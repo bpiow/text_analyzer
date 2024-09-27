@@ -1,10 +1,11 @@
 # Ignore Mac system files
 .DS_store
 
-# Ignore ansible folder for now
-ansible
-
 # Ignore the env folder  
 text-analyzer
 
+# Ignore __pycache__ folder
 __pycache__
+
+# Ignore the inventory file in ansible
+inventory.ini
