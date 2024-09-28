@@ -34,8 +34,7 @@ services:
       - 5601:5601
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-      - ELASTICSEARCH_USERNAME=elastic
-      - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
+      - ELASTICSEARCH_SERVICE_TOKEN=${ELASTIC_SERVICE_TOKEN}
     depends_on:
       - elasticsearch
 
