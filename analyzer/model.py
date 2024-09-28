@@ -1,42 +1,36 @@
-from sklearn.datasets import fetch_20newsgroups
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
-from joblib import dump
-from preprocess import preprocess_text
+import joblib
 import os
+from preprocess import preprocess_text  # Assuming you have preprocessing functions in preprocess.py
 
-# Loading dataset (using only 2 categories for simplicity)
-newsgroups = fetch_20newsgroups(subset='train', 
-                                categories=['rec.sport.hockey', 'sci.space'])
+# Define paths to your model and vectorizer
+MODEL_PATH = os.path.join("results", "text_classifier.joblib")
+VECTORIZER_PATH = os.path.join("results", "tfidf_vectorizer.joblib")
 
-# Preprocessing text data
-texts = [preprocess_text(text) for text in newsgroups.data]
-labels = newsgroups.target
+# Load the trained model and vectorizer
+model = joblib.load(MODEL_PATH)
+vectorizer = joblib.load(VECTORIZER_PATH)
 
-# Convert the text data into TF-IDF vectors
-vectorizer = TfidfVectorizer()
-X = vectorizer.fit_transform(texts)
-y = labels
+# Define categories corresponding to the model's output labels
+CATEGORIES = ["rec.sport.hockey", "sci.space"]  # Update this list according to your specific model's classes
 
-# Split the data into training and test sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+def make_prediction(text):
+    """
+    Preprocess the input text, transform it using the vectorizer,
+    and make a prediction using the loaded model.
 
-# Train a Logistic Regression model
-model = LogisticRegression()
-model.fit(X_train, y_train)
+    :param text: Input text string to classify.
+    :return: The predicted category label as a string.
+    """
+    # Preprocess the input text
+    clean_text = preprocess_text(text)
+    
+    # Transform the preprocessed text using the vectorizer
+    text_vector = vectorizer.transform([clean_text])
+    
+    # Make a prediction using the loaded model
+    prediction_index = model.predict(text_vector)
+    
+    # Map the prediction index to the corresponding category label
+    prediction_label = CATEGORIES[prediction_index[0]]
 
-# Evaluate the model (optional step)
-y_pred = model.predict(X_test)
-accuracy = accuracy_score(y_test, y_pred)
-print(f"Model Accuracy: {accuracy:.2f}")
-
-# Ensure the 'Results' directory exists
-os.makedirs('results', exist_ok=True)
-
-# Save the trained model and vectorizer
-dump(model, 'results/text_classifier.joblib')
-dump(vectorizer, 'results/tfidf_vectorizer.joblib')
-
-print("SUCCESS: Model and vectorizer saved in 'results'.")
+    return prediction_label
