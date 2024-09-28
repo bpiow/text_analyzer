@@ -9,3 +9,5 @@ __pycache__
 
 # Ignore the inventory file in ansible
 inventory.ini
+
+.env
