@@ -36,6 +36,10 @@ jobs:
       run: |
         python -m spacy download en_core_web_sm
 
+    - name: Train the model
+      run: |
+        python analyzer/train_model.py
+
     - name: Run tests
       run: |
         pytest --maxfail=5 --disable-warnings
