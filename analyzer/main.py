@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException, Depends, status
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
 from datetime import timedelta
@@ -7,6 +8,16 @@ from mongodb.save_results import save_prediction, get_all_predictions
 from auth import create_access_token, authenticate_user, get_current_user  # Authentication functions
 
 app = FastAPI()
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins (can be restricted to specific domains)
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods (can be restricted to specific ones)
+    allow_headers=["*"],  # Allow all headers
+)
+
 
 # Example model metadata (can be dynamically updated)
 MODEL_METADATA = {
