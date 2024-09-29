@@ -10,3 +10,4 @@ httpx
 python-jose
 jose
 passlib
+bandit
