@@ -1,3 +1,4 @@
+import os
 import joblib
 from sklearn.datasets import fetch_20newsgroups
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -30,6 +31,10 @@ pipeline.fit(X_train, y_train)
 y_pred = pipeline.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 print(f"Model Accuracy: {accuracy:.2f}")
+
+# Make sure the 'results' directory exists
+if not os.path.exists('results'):
+    os.makedirs('results')
 
 # Save the trained vectorizer and model
 # Ensure 'results' directory exists or adjust the path as needed
