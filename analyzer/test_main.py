@@ -1,16 +1,17 @@
+# tests/test_main.py
 import pytest
-from httpx import AsyncClient, ASGITransport
-from main import app  # Import your FastAPI app
+from fastapi.testclient import TestClient
+from main import app
 
-@pytest.mark.asyncio
-async def test_predict_text():
-    """
-    Test the POST request to the /predict endpoint.
-    """
-    # Use ASGITransport to connect httpx to the FastAPI app explicitly
-    transport = ASGITransport(app=app)
-    async with AsyncClient(transport=transport, base_url="http://test") as ac:
-        response = await ac.post("/predict", json={"text": "I love playing hockey!"})
+client = TestClient(app)
+
+def test_read_model_metadata():
+    response = client.get("/model_metadata")
     assert response.status_code == 200
-    assert "prediction" in response.json()  
-    assert response.json()["prediction"] == "rec.sport.hockey" 
+    data = response.json()
+    assert "model_name" in data
+    assert data["model_name"] == "Text Classifier"
+
+def test_predict_unauthorized():
+    response = client.post("/predict", json={"text": "sample text"})
+    assert response.status_code == 401

@@ -1,7 +1,6 @@
 from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import List
 from datetime import timedelta
 from model import make_prediction 
 from mongodb.save_results import save_prediction, get_all_predictions 
@@ -9,7 +8,7 @@ from auth import create_access_token, authenticate_user, get_current_user  # Aut
 
 app = FastAPI()
 
-# Add CORS middleware
+# CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Allow all origins (can be restricted to specific domains)
@@ -18,8 +17,7 @@ app.add_middleware(
     allow_headers=["*"],  # Allow all headers
 )
 
-
-# Example model metadata (can be dynamically updated)
+# Example model metadata
 MODEL_METADATA = {
     "model_name": "Text Classifier",
     "version": "1.0.0",
@@ -31,18 +29,13 @@ MODEL_METADATA = {
 class TextInput(BaseModel):
     text: str
 
-class BatchInput(BaseModel):
-    texts: List[str]
-
 class UserLogin(BaseModel):
     username: str
     password: str
 
 @app.post("/token")
 def login_for_access_token(form_data: UserLogin):
-    """
-    Endpoint to authenticate a user and generate a JWT token.
-    """
+    # Endpoint to authenticate a user and generate a JWT token.
     user = authenticate_user(form_data.username, form_data.password)
     if not user:
         raise HTTPException(
@@ -57,31 +50,14 @@ def login_for_access_token(form_data: UserLogin):
 
 @app.post("/predict", dependencies=[Depends(get_current_user)])
 def predict_text(input: TextInput):
-    """
-    Endpoint to make a single prediction.
-    Requires user authentication.
-    """
+    # Endpoint to make a single prediction.
     prediction = make_prediction(input.text)
     save_prediction(input.text, prediction)  # Save the prediction to MongoDB
     return {"prediction": prediction}
 
-@app.post("/batch_predict", dependencies=[Depends(get_current_user)])
-def batch_predict_text(batch_input: BatchInput):
-    """
-    Endpoint to process multiple texts and return predictions for each.
-    Requires user authentication.
-    """
-    results = [{"text": text, "prediction": make_prediction(text)} for text in batch_input.texts]
-    for result in results:
-        save_prediction(result["text"], result["prediction"])  # Save each prediction to MongoDB
-    return results
-
 @app.get("/predictions", dependencies=[Depends(get_current_user)])
 def get_predictions():
-    """
-    Endpoint to retrieve all past predictions from the database.
-    Requires user authentication.
-    """
+    # Endpoint to retrieve all past predictions from the database.
     predictions = get_all_predictions()
     if not predictions:
         raise HTTPException(status_code=404, detail="No predictions found.")
@@ -89,7 +65,5 @@ def get_predictions():
 
 @app.get("/model_metadata")
 def model_metadata():
-    """
-    Endpoint to retrieve metadata about the model.
-    """
+    # Endpoint to retrieve metadata about the model.
     return MODEL_METADATA
