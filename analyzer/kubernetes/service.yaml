@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: ai-text-classifier-service
 spec:
-  type: NodePort  # Exposes the service externally via a random port
+  type: NodePort
   selector:
     app: ai-text-classifier
   ports:

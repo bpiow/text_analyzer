@@ -2,8 +2,8 @@ from fastapi import FastAPI, HTTPException, Depends, status
 from pydantic import BaseModel
 from typing import List
 from datetime import timedelta
-from model import make_prediction  # Import your prediction function
-from mongodb.save_results import save_prediction, get_all_predictions  # Database functions
+from model import make_prediction 
+from mongodb.save_results import save_prediction, get_all_predictions 
 from auth import create_access_token, authenticate_user, get_current_user  # Authentication functions
 
 app = FastAPI()

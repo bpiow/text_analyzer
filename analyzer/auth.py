@@ -5,8 +5,7 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from pydantic import BaseModel
 
-# Secret key to encode the JWT
-SECRET_KEY = "your_secret_key"  # Change to a secure random string
+SECRET_KEY = "your_secret_key" 
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
@@ -17,7 +16,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 class TokenData(BaseModel):
     username: str | None = None
 
-# Users and hashed passwords (replace with a database in production)
+# Users and hashed passwords
 fake_users_db = {
     "testuser": {
         "username": "testuser",
