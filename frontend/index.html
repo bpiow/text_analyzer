@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Text Classifier</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>AI Text Classifier</h1>
+
+        <!-- Login Form -->
+        <form id="login-form">
+            <h2>Login</h2>
+            <label for="username">Username:</label>
+            <input type="text" id="username" placeholder="Enter username" required>
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" placeholder="Enter password" required>
+            
+            <button type="submit" id="login-btn">Login</button>
+        </form>
+
+        <!-- API Selection -->
+        <div id="api-options" style="display:none;">
+            <h2>Select API Endpoint:</h2>
+            <button id="predict-btn">Predict</button>
+            <button id="predictions-btn">Previous Predictions</button>
+            <button id="metadata-btn">Metadata</button>
+        </div>
+
+        <!-- Text Input Area for Prediction -->
+        <div id="text-area" style="display:none;">
+            <h2>Enter Text for Prediction:</h2>
+            <textarea id="text-input" rows="4" placeholder="Type your text here..."></textarea>
+            <button id="submit-text-btn">Submit</button>
+
+            <div id="response-area">
+                <h2>Response:</h2>
+                <p id="response-output"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
