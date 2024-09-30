@@ -8,7 +8,7 @@ VECTORIZER_PATH = os.path.join("results", "tfidf_vectorizer.joblib")
 model = joblib.load(MODEL_PATH)
 vectorizer = joblib.load(VECTORIZER_PATH)
 
-CATEGORIES = ["rec.sport.hockey", "sci.space"]:w
+CATEGORIES = ["rec.sport.hockey", "sci.space"]
 
 def make_prediction(text):
     """
