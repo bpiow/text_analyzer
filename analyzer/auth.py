@@ -24,7 +24,6 @@ fake_users_db = {
     }
 }
 
-# OAuth2 scheme
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 def verify_password(plain_password, hashed_password):

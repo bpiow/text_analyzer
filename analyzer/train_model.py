@@ -37,7 +37,6 @@ if not os.path.exists('results'):
     os.makedirs('results')
 
 # Save the trained vectorizer and model
-# Ensure 'results' directory exists or adjust the path as needed
 joblib.dump(pipeline.named_steps['vectorizer'], 'results/tfidf_vectorizer.joblib')
 joblib.dump(pipeline.named_steps['classifier'], 'results/text_classifier.joblib')
 

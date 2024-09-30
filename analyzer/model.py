@@ -2,16 +2,13 @@ import joblib
 import os
 from preprocess import preprocess_text  # Assuming you have preprocessing functions in preprocess.py
 
-# Define paths to your model and vectorizer
 MODEL_PATH = os.path.join("results", "text_classifier.joblib")
 VECTORIZER_PATH = os.path.join("results", "tfidf_vectorizer.joblib")
 
-# Load the trained model and vectorizer
 model = joblib.load(MODEL_PATH)
 vectorizer = joblib.load(VECTORIZER_PATH)
 
-# Define categories corresponding to the model's output labels
-CATEGORIES = ["rec.sport.hockey", "sci.space"]  # Update this list according to your specific model's classes
+CATEGORIES = ["rec.sport.hockey", "sci.space"]:w
 
 def make_prediction(text):
     """
