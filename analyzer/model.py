@@ -1,6 +1,6 @@
 import joblib
 import os
-from preprocess import preprocess_text  # Assuming you have preprocessing functions in preprocess.py
+from preprocess import preprocess_text 
 
 MODEL_PATH = os.path.join("results", "text_classifier.joblib")
 VECTORIZER_PATH = os.path.join("results", "tfidf_vectorizer.joblib")

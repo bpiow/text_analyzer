@@ -8,6 +8,5 @@ pymongo
 pytest
 httpx
 python-jose
-jose
 passlib
 bandit

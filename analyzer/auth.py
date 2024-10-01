@@ -12,10 +12,6 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 # Password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-# Token model
-class TokenData(BaseModel):
-    username: str | None = None
-
 # Users and hashed passwords
 fake_users_db = {
     "testuser": {
@@ -24,10 +20,18 @@ fake_users_db = {
     }
 }
 
+
+# Token model
+class TokenData(BaseModel):
+    username: str | None = None
+
+
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
 
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
+
 
 def get_user(db, username: str):
     if username in db:
@@ -35,11 +39,13 @@ def get_user(db, username: str):
         return user_dict
     return None
 
+
 def authenticate_user(username: str, password: str):
     user = get_user(fake_users_db, username)
     if not user or not verify_password(password, user["hashed_password"]):
         return False
     return user
+
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()
@@ -50,6 +56,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
+
 
 def get_current_user(token: str = Depends(oauth2_scheme)):
     credentials_exception = HTTPException(

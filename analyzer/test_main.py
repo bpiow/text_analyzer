@@ -1,5 +1,3 @@
-# tests/test_main.py
-import pytest
 from fastapi.testclient import TestClient
 from main import app
 
@@ -15,3 +13,4 @@ def test_read_model_metadata():
 def test_predict_unauthorized():
     response = client.post("/predict", json={"text": "sample text"})
     assert response.status_code == 401
+
